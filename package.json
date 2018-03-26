@@ -1,0 +1,16 @@
+{
+  "name": "exyclinic-electron",
+  "productName":"EXYClinic",
+  "version": "0.2.0",
+  "main": "src/main.js",
+  "scripts": {
+    "build": "electron-packager . EXYClinic --icon \"res/icon\" --out build --overwrite --all",
+    "build-darwin": "electron-packager . EXYClinic --icon \"res/icon\" --out build --overwrite --platform=darwin",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^1.4.13",
+    "electron-debug": "^1.4.0",
+    "electron-packager": "^8.4.0"
+  }
+}
