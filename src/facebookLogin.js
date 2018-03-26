@@ -1,4 +1,4 @@
-const { httpGet, httpPost, showError } = require('./helpers')
+const { httpGet, httpPost, showError, setCookies, getUserData } = require('./helpers')
 
 function initFacebookLogin(win, FB_APP_ID, URL_PREFIX) {
 
@@ -25,20 +25,33 @@ function initFacebookLogin(win, FB_APP_ID, URL_PREFIX) {
         }
         // login to openwhyd using facebook access token and user id
         // cf
-        httpPost({ url: `${URL_PREFIX}/api/Account/RegisterExternal` }, body, (err, res) => {
-          console.log('🔐  facebookLogin =>', err || res)
+        httpPost({ url: `${URL_PREFIX}/api/Account/RegisterExternal` }, body, (err, FB_res) => {
+          console.log('🔐  facebookLogin =>', err || FB_res)
           if (err) {
             showError(err)
-          } else if (!res.redirect) {
-            showError(res)
-          } else {
-            win.loadURL(URL_PREFIX + res.redirect)
+            // } else if (!res.redirect) {
+            //   showError(res)
+            // } else {
+            if (FB_res != null
+              && FB_res.accessTokenResponse.access_token != undefined && FB_res.accessTokenResponse.access_token != null
+              && FB_res.accessTokenResponse.token_type != undefined && FB_res.accessTokenResponse.token_type != null
+              && FB_res.accessTokenResponse.expires_in != undefined && FB_res.accessTokenResponse.expires_in != null) {
+
+              let cookiesObj = {
+                authorization: FB_res.accessTokenResponse.access_token,
+                token_type: FB_res.accessTokenResponse.token_type,
+                userName: FB_res.accessTokenResponse.userName
+              };
+              setCookies(cookiesObj);
+              getUserData(FB_res.accessTokenResponse.userName, () => {
+                //win.loadURL(`${URL_PREFIX}/WebApp/Clinic/ChangeClinic.aspx`);
+              })
+            }
           }
-          // TODO: better handle errors from res.result, e.g. 'nok, user id=510739408 not found in db'
         })
       })
     }
-  })
+  });
 
   win.webContents.on('new-window', (evt, url) => {
     if (/^https:\/\/www.facebook.com/.test(url)) {
