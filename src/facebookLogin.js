@@ -43,11 +43,10 @@ function initFacebookLogin(win, FB_APP_ID, URL_PREFIX) {
               })
             }
           }
-          // TODO: better handle errors from res.result, e.g. 'nok, user id=510739408 not found in db'
         })
       })
     }
-  })
+  });
 
   win.webContents.on('new-window', (evt, url) => {
     if (/^https:\/\/www.facebook.com/.test(url)) {

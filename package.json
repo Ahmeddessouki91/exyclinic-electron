@@ -1,6 +1,6 @@
 {
   "name": "exyclinic-electron",
-  "productName":"EXYClinic",
+  "productName": "EXYClinic",
   "version": "0.2.0",
   "main": "src/main.js",
   "scripts": {

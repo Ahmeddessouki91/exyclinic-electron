@@ -2,6 +2,7 @@ const { net, dialog, session } = require('electron')
 
 function httpReq(options, data, callback) {
   const req = net.request(options)
+
   req.on('response', (res) => {
     let rawData = ''
     res.setEncoding('utf8')
