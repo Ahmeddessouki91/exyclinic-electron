@@ -16,6 +16,10 @@ const BROWSER_WINDOW_SETTINGS = {
   height: 900,
   webPreferences: {
     nodeIntegration: false, // to let jquery load in web mode
+    webSecurity: false,
+    allowRunningInsecureContent: true,
+    plugins: true,
+    nativeWindowOpen: true
   },
 }
 
@@ -23,11 +27,12 @@ const BROWSER_WINDOW_SETTINGS = {
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-function createWindow () {
+function createWindow() {
   win = new BrowserWindow(BROWSER_WINDOW_SETTINGS)
-  
+
+  session.defaultSession.clearStorageData([], (data) => { }) // clear cookies and local storage
+
   if (TROUBLESHOOTING) {
-    session.defaultSession.clearStorageData([], (data) => {}) // clear cookies and local storage
     win.webContents.openDevTools()
   }
 
@@ -36,10 +41,6 @@ function createWindow () {
   win.loadURL(URL_PREFIX)
 
   initFacebookLogin(win, FB_APP_ID, URL_PREFIX)
-
-  win.webContents.on('did-navigate', (evt, url) =>
-    console.log('⚡️  did-navigate', url)
-  )
 
   // Emitted when the window is closed.
   win.on('closed', () =>
