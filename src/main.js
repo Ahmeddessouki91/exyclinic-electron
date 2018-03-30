@@ -11,7 +11,7 @@ const TROUBLESHOOTING = false
 const URL_PREFIX = 'https://test.exyclinic.com'
 const FB_APP_ID = 142608023059096
 const BROWSER_WINDOW_SETTINGS = {
-  icon: __dirname + '/icon.ico',
+  icon: __dirname + '/../icon.ico',
   width: 1200,
   height: 900,
   webPreferences: {

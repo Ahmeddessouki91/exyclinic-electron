@@ -6,8 +6,8 @@ function initFacebookLogin(win, FB_APP_ID, URL_PREFIX) {
     // intercept login/auth response from facebook
     //url.match(/^https\:\/\/www.facebook.com\/connect\/login_success.html#access_token=([^&$]+)/)
     var access_token = url.match(/\#(?:access_token)\=([\S\s]*?)\&/);
-    console.log(access_token[1]);
     if (access_token != null) {
+      console.log(access_token[1]);
       const token = access_token[1];
       //console.log('🔐  got fb access token:', token)
       // get facebook user id (required by openwhyd api)
